@@ -19,6 +19,31 @@ class ProductType(DjangoObjectType):
     class Meta:
         model = Product
 
+
+class ProductMutation(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+        mrp = graphene.Float()
+        discount = graphene.Float()
+        available = graphene.Boolean()
+
+    product = graphene.Field(ProductType)
+    def mutate(self, info, id, mrp=0.00, discount=0.00, available=False):
+        product =  Product.objects.get(pk=id)
+        if mrp != 0:
+            product.mrp = mrp            
+        if discount != 0:
+            product.discount = discount
+        if available or product.available:
+            product.available = True
+        product.save()
+
+        return ProductMutation(product=product)
+
+class Mutation(graphene.ObjectType):
+    update_product = ProductMutation.Field()
+
+
 class Query(object):    
     all_categories = graphene.List(CategoryType)
     manufacturer = graphene.Field(ManufacturerType, id=graphene.Int(), name=graphene.String())

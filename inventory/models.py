@@ -36,3 +36,7 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.sale_price = self.mrp - self.mrp*self.discount/100
+        super(Product, self).save(*args, **kwargs)
+
