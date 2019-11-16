@@ -8,3 +8,6 @@ class HomepageSlider(models.Model):
 
     def __str__(self):
         return self.title
+
+    def image_url(self):
+        return "http://localhost:8000/%s" % self.image.url
