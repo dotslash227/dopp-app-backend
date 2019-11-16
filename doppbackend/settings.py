@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'graphene_django',
     'authentication',
     'inventory',
-    'orders'
+    'orders',
+    'promotions',
 ]
 
 MIDDLEWARE = [

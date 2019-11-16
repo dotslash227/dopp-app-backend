@@ -1,8 +1,10 @@
 import graphene
 import inventory.schema
+import promotions.schema
 
 class Query(
     inventory.schema.Query,
+    promotions.schema.Query,
     graphene.ObjectType):
     pass
 
