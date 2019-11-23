@@ -23,11 +23,17 @@ class Category(models.Model):
 class Product(models.Model):
     date_added = models.DateField(default=timezone.now)
     name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.DO_NOTHING, blank=True, null=True)
     categories = models.ManyToManyField(Category)
     mrp = models.FloatField(default=0.00)
     discount = models.FloatField(default=0.00)
     sale_price = models.FloatField(default=0.00)
+    image = models.FileField(max_length=100, upload_to="products", blank=True, null=True)
+    build = models.CharField(max_length=10, choices=(
+        ("spherical", "Spherical"),
+        ("toric", "Toric")
+    ), default="spherical")
     available = models.BooleanField(default=False, choices=(
         (True, "Yes"),
         (False, "No")

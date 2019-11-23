@@ -16,8 +16,13 @@ class PTType(DjangoObjectType):
         model = product_type
 
 class ProductType(DjangoObjectType):
+    image = graphene.String()
+    
     class Meta:
         model = Product
+
+    def resolve_image(self, info):
+        return "http://localhost:8000%s" % (self.image.url)
 
 
 class ProductMutation(graphene.Mutation):
