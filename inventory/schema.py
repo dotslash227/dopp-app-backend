@@ -1,7 +1,11 @@
 import graphene
 from graphene_django.types import DjangoObjectType
-from .models import Product, Category, Manufacturer
+from .models import Product, Category, Manufacturer, Power
 from .models import ProductType as product_type
+
+class PowerType(DjangoObjectType):
+    class Meta:
+        model = Power
 
 class ManufacturerType(DjangoObjectType):
     class Meta:
@@ -17,12 +21,20 @@ class PTType(DjangoObjectType):
 
 class ProductType(DjangoObjectType):
     image = graphene.String()
+    sph_powers = graphene.List(PowerType)
+    cyl_powers = graphene.List(PowerType)
     
     class Meta:
         model = Product
 
     def resolve_image(self, info):
         return "http://localhost:8000%s" % (self.image.url)
+    
+    def resolve_sph_powers(self, info, **kwargs):
+        return self.sph_powers.all()
+
+    def resolve_cyl_powers(self, info, **kwargs):
+        return self.cyl_powers.all()
 
 
 class ProductMutation(graphene.Mutation):

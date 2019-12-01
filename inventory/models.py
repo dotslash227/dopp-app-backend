@@ -1,6 +1,12 @@
 from django.db import models
 from django.utils import timezone
 
+class Power(models.Model):
+    power = models.FloatField()
+
+    def __str__(self):
+        return "%s" % str(self.power)
+
 class Manufacturer(models.Model):
     name = models.CharField(max_length=100)
 
@@ -34,6 +40,8 @@ class Product(models.Model):
         ("spherical", "Spherical"),
         ("toric", "Toric")
     ), default="spherical")
+    sph_powers = models.ManyToManyField(Power, related_name="sph_powers")
+    cyl_powers = models.ManyToManyField(Power, related_name="cyl_powers")
     available = models.BooleanField(default=False, choices=(
         (True, "Yes"),
         (False, "No")
