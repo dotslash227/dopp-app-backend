@@ -1,11 +1,15 @@
 import graphene
 from graphene_django.types import DjangoObjectType
-from .models import Product, Category, Manufacturer, Power
+from .models import Product, Category, Manufacturer, Power, Axis
 from .models import ProductType as product_type
 
 class PowerType(DjangoObjectType):
     class Meta:
         model = Power
+
+class AxisType(DjangoObjectType):
+    class Meta:
+        model = Axis
 
 class ManufacturerType(DjangoObjectType):
     class Meta:
@@ -23,6 +27,7 @@ class ProductType(DjangoObjectType):
     image = graphene.String()
     sph_powers = graphene.List(PowerType)
     cyl_powers = graphene.List(PowerType)
+    axis = graphene.List(AxisType)
     
     class Meta:
         model = Product
@@ -35,6 +40,9 @@ class ProductType(DjangoObjectType):
 
     def resolve_cyl_powers(self, info, **kwargs):
         return self.cyl_powers.all()
+
+    def resolve_axis(self, info, **kwargs):
+        return self.axis.all()
 
 
 class ProductMutation(graphene.Mutation):

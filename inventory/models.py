@@ -7,6 +7,12 @@ class Power(models.Model):
     def __str__(self):
         return "%s" % str(self.power)
 
+class Axis(models.Model):
+    axis = models.IntegerField()
+
+    def __str__(self):
+        return str(self.axis)
+
 class Manufacturer(models.Model):
     name = models.CharField(max_length=100)
 
@@ -40,8 +46,9 @@ class Product(models.Model):
         ("spherical", "Spherical"),
         ("toric", "Toric")
     ), default="spherical")
-    sph_powers = models.ManyToManyField(Power, related_name="sph_powers")
-    cyl_powers = models.ManyToManyField(Power, related_name="cyl_powers")
+    sph_powers = models.ManyToManyField(Power, related_name="sph_powers", blank=True, null=True)
+    cyl_powers = models.ManyToManyField(Power, related_name="cyl_powers", blank=True, null=True)
+    axis = models.ManyToManyField(Axis, blank=True)
     available = models.BooleanField(default=False, choices=(
         (True, "Yes"),
         (False, "No")
